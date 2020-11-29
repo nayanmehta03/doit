@@ -1,0 +1,111 @@
+{% load static %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script
+            src="https://kit-pro.fontawesome.com/releases/v5.10.1/js/pro.min.js"
+            data-auto-fetch-svg
+    ></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'personal/style.css' %}"/>
+</head>
+
+<body>
+<nav class="navbar">
+    <ul class="navbar-nav">
+        <li class="logo">
+            <a href="{% url 'personal-home' %}" class="nav-link">
+                <span class="link-text logo-text">Do iT</span>
+                <i class="fad fa-angle-double-right fa-2x"></i>
+            </a>
+        </li>
+
+        <li class="nav-item user">
+            <a href="#" class="nav-link">
+                {% if request.user.is_authenticated %}
+                    <img src="https://lorempixel.com/200/300" class="user-img"/>
+                    <span class="link-text">{{ request.user.fullname }}</span>
+                {% endif %}
+            </a>
+        <li>
+
+        <li class="nav-item">
+            <a href="{% url 'personal-home' %}" class="nav-link">
+                <i class="fad fa-user fa-lg"></i>
+                <span class="link-text">Personal</span>
+            </a>
+        </li>
+
+{#        <li class="nav-item">#}
+{#            <a href="#" class="nav-link">#}
+{#                <i class="fad fa-users-class fa-lg"></i>#}
+{#                <span class="link-text">Teams</span>#}
+{#            </a>#}
+{#        </li>#}
+
+
+        <li class="nav-item" id="logout-nav">
+            {% if request.user.is_authenticated %}
+                <a class="nav-link" href="{% url 'logout' %}">
+                    <i class="fad fa-sign-out-alt fa-lg"></i>
+                    <span class="link-text">Logout</span>
+                </a>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+
+<main>
+    <div class="topbar">
+        <div class="page-title">
+            <span class="page-title-text">Personal Boards</span>
+        </div>
+{#        <div class="filter">#}
+{#            <a class="filter-btn"><span class="filter-btn-text">FILTER</span><i class="fad fa-filter"></i></a>#}
+{#        </div>#}
+    </div>
+    <div class="boards">
+        {% for board, stat in stat.items %}
+            <a href="{% url 'tasks' board.id %}">
+                <div class="card card-board" id="{{ board.id }}">
+                    <div class="additional" style="  background: linear-gradient(#ff7eee, #df49a6);">
+                        <div class="more-info">
+                            <h1>{{ board.name }}</h1>
+                            <div class="coords">
+                                <span>Created on {{ board.date_of_creation.date }}</span>
+                                <p>
+                                    {{ board.description }}
+                                </p>
+                            </div>
+                            <div class="stats">
+                                <div>
+                                    <div class="title">Total</div>
+                                    <div class="value">{{ stat.0 }}</div>
+                                </div>
+                                <div>
+                                    <div class="title">Completed</div>
+                                    <div class="value">{{ stat.2 }}</div>
+                                </div>
+                                <div>
+                                    <div class="title">Ongoing</div>
+                                    <div class="value">{{ stat.1 }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="general">
+                        <h1>{{ board.name }}</h1>
+                    </div>
+                </div>
+            </a>
+
+        {% endfor %}
+        <div class="card new-board">
+            <div id="plus-card">
+                <i class="fa fa-plus"></i>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script type="text/javascript" src="{% static 'personal/personal.js' %}"></script>
+</body>

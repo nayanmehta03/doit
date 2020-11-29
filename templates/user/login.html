@@ -1,0 +1,119 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Doit</title>
+    <script
+            src="https://kit-pro.fontawesome.com/releases/v5.10.1/js/pro.min.js"
+            data-auto-fetch-svg
+    ></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'user/login.css' %}"/>
+</head>
+<body>
+<div class="container {{ panel }}" id="container">
+    <div class="form-container sign-up-container" id="sign-up-container"
+         style="opacity: {{ su_opacity }}; z-index: {{ su_index }}">
+        <form method="post" id="sign-up-form">
+            {% csrf_token %}
+            <h1>Create Account</h1>
+            <span>or use your email for registration</span>
+
+            <div class="input-field">
+                <div class="svg-container start">
+                    <i class="fad fa-user"></i>
+                </div>
+                <input type="text" placeholder="Full Name" name="su-name" id="su-name" value="{{ su_name }}"/>
+                <div class="svg-container check" id="su-name-check">
+                    <i class="fa fa-check"></i>
+                </div>
+            </div>
+
+            <div class="input-field">
+                <div class="svg-container start">
+                    <i class="fad fa-envelope"></i>
+                </div>
+                <input type="text" placeholder="E-mail" name="su-mail" id="su-mail" value="{{ su_mail }}"/>
+                <div class="svg-container check" id="su-mail-check">
+                    <i class="fa fa-check"></i>
+                </div>
+            </div>
+            <div class="input-field" id="su-pass-parent">
+                <div class="svg-container start">
+                    <i class="fad fa-lock"></i>
+                </div>
+                <input type="password" placeholder="Password" name="su-pass" id="su-pass" value="{{ su_pass }}"/>
+                <div class="svg-container eye" id="su-pass-show">
+                    <i class="fad fa-eye" id="togglePassword"></i>
+                </div>
+            </div>
+
+            <div class="input-field">
+                <div class="svg-container start">
+                    <i class="fad fa-lock"></i>
+                </div>
+                <input
+                        type="password"
+                        placeholder="Password (again)"
+                        id="su-pass-re"
+                        name="su-pass-re"
+                        value="{{ su_pass_re }}"
+                />
+                <div class="svg-container eye" id="su-pass-re-show">
+                    <i class="fad fa-eye" id="togglePasswordRe"></i>
+                </div>
+            </div>
+
+            <div class="error-msg-signup" id="error-msg-signup"></div>
+            <button style="margin-top: 10px" id="sign-up-btn" type="button">Sign Up</button>
+            <a id="mobile-in">Sign In <i class="fa fa-arrow-right"></i></a>
+        </form>
+    </div>
+    <div class="form-container sign-in-container" id="sign-in-container">
+        <form method="post" id="sign-in-form">
+            {% csrf_token %}
+            <h1>Sign in</h1>
+            <span>or use your account</span>
+            <div class="input-field">
+                <div class="svg-container start">
+                    <i class="fad fa-envelope"></i>
+                </div>
+                <input type="email" name="si-mail" value="{{ si_mail }}" placeholder="E-mail"/>
+            </div>
+            <div class="input-field">
+                <div class="svg-container start">
+                    <i class="fad fa-lock"></i>
+                </div>
+                <input type="password" name="si-pass" value="{{ si_pass }}" id="si-pass" placeholder="Password"/>
+                <div class="svg-container eye" id="si-pass-show">
+                    <i class="fa fa-eye" id="togglePasswordSign"></i>
+                </div>
+            </div>
+            <div class="error-msg-signin" style="display: {{ display }};">
+                <i class="fa fa-times-circle"></i>
+                {{ error_msg }}
+            </div>
+            <a href="#">Forgot your password?</a>
+            <button type="submit">Sign In</button>
+            <a id="mobile-up">Sign Up <i class="fa fa-arrow-right"></i></a>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>One of us ?</h1>
+                <p>
+                    To keep connected with us please login with your personal info
+                </p>
+                <button class="ghost" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>New here ?</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'user/login.js' %}"></script>
+</body>

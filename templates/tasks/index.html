@@ -1,0 +1,144 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{{ tasks.0.board.name }}</title>
+    <script src="https://kit-pro.fontawesome.com/releases/v5.10.1/js/pro.min.js" data-auto-fetch-svg></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'personal/tasks.css' %}"/>
+</head>
+<body>
+<nav class="navbar">
+    <ul class="navbar-nav">
+        <li class="logo">
+            <a href="{% url 'personal-home' %}" class="nav-link">
+                <span class="link-text logo-text">Do iT</span>
+                <i class="fad fa-angle-double-right fa-2x"></i>
+            </a>
+        </li>
+
+        <li class="nav-item user">
+            <a href="#" class="nav-link">
+                {% if request.user.is_authenticated %}
+                    <img src="https://lorempixel.com/200/300" class="user-img"/>
+                    <span class="link-text">{{ request.user.fullname }}</span>
+                {% endif %}
+            </a>
+        <li>
+
+        <li class="nav-item">
+            <a href="{% url 'personal-home' %}" class="nav-link">
+                <i class="fad fa-user fa-lg"></i>
+                <span class="link-text">Personal</span>
+            </a>
+        </li>
+
+        {#        <li class="nav-item">#}
+        {#            <a href="#" class="nav-link">#}
+        {#                <i class="fad fa-users-class fa-lg"></i>#}
+        {#                <span class="link-text">Teams</span>#}
+        {#            </a>#}
+        {#        </li>#}
+
+
+        <li class="nav-item" id="logout-nav">
+            {% if request.user.is_authenticated %}
+                <a class="nav-link" href="{% url 'logout' %}">
+                    <i class="fad fa-sign-out-alt fa-lg"></i>
+                    <span class="link-text">Logout</span>
+                </a>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+<main>
+    {% csrf_token %}
+    <div class="board-name" id="{{ board.id }}">
+        <span>{{ board.name }}</span>
+        <div class="filter">
+            <a class="filter-btn"><span class="filter-btn-text">DELETE</span><i class="fad fa-trash"></i></a>
+        </div>
+    </div>
+
+    <div class="section">
+        <span>Tasks</span>
+    </div>
+    {% for task in tasks %}
+        {% if not task.ongoing %}
+            {% if not task.completed %}
+                <div class="task-container task-gradient" id="{{ task.id }}">
+                    <div class="task-toggle">
+                        <label>{{ task.name }}</label>
+                        <span class="task-indicator"></span>
+                    </div>
+                    <div class="task-body">
+                        <p>
+                            {{ task.description }}
+                        </p>
+                        <div class="task-buttons">
+                            <button class="start" style="background: mediumseagreen"><i class="fa fa-check"></i> Start
+                            </button>
+                            <button class="delete" style="background: indianred"><i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    <div class="add-task">
+        <i class="fad fa-plus-circle" style="color: var(--text-primary)"></i>&nbsp;&nbsp; Add task
+    </div>
+    <div class="section">
+        <span>Ongoing Tasks</span>
+    </div>
+    {% for task in tasks %}
+        {% if task.ongoing %}
+            <div class="task-container task-gradient" id="{{ task.id }}">
+                <div class="task-toggle">
+                    <label>{{ task.name }}</label>
+                    <span class="task-indicator"></span>
+                </div>
+                <div class="task-body">
+                    <p>
+                        {{ task.description }}
+                    </p>
+                    <div class="task-buttons">
+                        <button class="completed" style="background: cadetblue"><i class="fa fa-check"></i> Completed
+                        </button>
+                        <button class="delete" style="background: indianred"><i class="fa fa-trash"></i> Delete</button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="section">
+        <span>Completed Tasks</span>
+    </div>
+    {% for task in tasks %}
+        {% if task.completed %}
+            <div class="task-container task-gradient" id="{{ task.id }}">
+                <div class="task-toggle">
+                    <label>{{ task.name }}</label>
+                    <span class="task-indicator"></span>
+                </div>
+                <div class="task-body">
+                    <p>
+                        {{ task.description }}
+                    </p>
+                    <div class="task-buttons">
+                        <button class="delete" style="background: indianred"><i class="fa fa-trash"></i> Delete</button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+</main>
+<script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script type="text/javascript" src="{% static 'personal/tasks.js' %}"></script>
+</body>
+</html>
