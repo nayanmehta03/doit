@@ -7,6 +7,9 @@ from django.http import HttpResponse
 
 
 # Create your views here.
+def landing(request):
+    return redirect('personal-home')
+
 
 def home(request):
     if request.user.is_authenticated:
@@ -97,6 +100,7 @@ def complete_task(request, task_id):
     else:
         return redirect('login')
 
+
 @csrf_exempt
 def delete_board(request, board_id):
     if request.user.is_authenticated:
@@ -106,4 +110,3 @@ def delete_board(request, board_id):
             return HttpResponse(json.dumps(response), content_type='application/json')
     else:
         return redirect('login')
-

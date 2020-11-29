@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from user.views import LoginView, RegisterView, validate_register, logout_view
-from personal.views import add_board
+from personal.views import landing
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +24,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
     path('ajax/validate-register/', validate_register, name='validate'),
-
     path('logout/', logout_view, name='logout'),
+    path('', landing, name='landing')
 ]
